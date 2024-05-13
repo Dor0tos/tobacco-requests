@@ -1,0 +1,13 @@
+@import './base.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+a {
+    text-decoration: underline;
+    color: #3b82f6;
+    cursor: pointer;
+}
+* {
+    --tw-shadow-color: #00000039;
+}
