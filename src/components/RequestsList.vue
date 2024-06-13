@@ -1,6 +1,4 @@
 <script setup>
-import { ref } from 'vue'
-
 const props = defineProps({
     columns: {
         type: Number,
@@ -10,7 +8,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <section class="grid grid-flow-row grid-cols gap-3">
+    <section class="grid grid-flow-row grid-cols gap-5">
         <slot></slot>
     </section>
 </template>

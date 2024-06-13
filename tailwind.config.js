@@ -20,7 +20,8 @@ export default {
 
                 accent: '#3B82F6',
 
-                'white-sh': '#00000038'
+                'pattern-light': '#F6F8FA',
+                'pattern-dark': '#222D3F'
             },
             fontFamily: {
                 noto: ['Noto Sans', 'Arial', 'sans-serif'],
