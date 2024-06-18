@@ -6,18 +6,45 @@ import IconMoon from '../icons/IconMoon.vue'
 import IconSun from '../icons/IconSun.vue'
 
 function changeTheme() {
-    const html = document.documentElement
-
-    if (isDarkTheme.value) {
-        html.classList.remove('dark')
-    } else {
-        html.classList.add('dark')
-    }
-
     isDarkTheme.value = !isDarkTheme.value
+    updateTheme()
 }
 
-let isDarkTheme = ref(document.documentElement.classList.contains('dark'))
+function updateTheme() {
+    const html = document.documentElement
+    const containsDark = document.documentElement.classList.contains('dark')
+
+    if (isDarkTheme.value) {
+        if (!containsDark) {
+            html.classList.add('dark')
+        }
+
+        localStorage.setItem('theme', 'dark')
+    } else {
+        if (containsDark) {
+            html.classList.remove('dark')
+        }
+
+        localStorage.setItem('theme', 'light')
+    }
+
+    console.log('theme', localStorage.getItem('theme'))
+}
+
+onMounted(() => {
+    let theme = localStorage.getItem('theme')
+    console.log('theme', theme)
+    if (!theme) {
+        localStorage.setItem('theme', 'light')
+        isDarkTheme.value = false
+    } else {
+        isDarkTheme.value = theme == 'dark'
+    }
+
+    updateTheme()
+})
+
+let isDarkTheme = ref(false)
 </script>
 
 <template>

@@ -1,7 +1,20 @@
 <script setup>
 import TRButton from '../ui/buttons/trButton.vue'
-import AccentButton from '../ui/buttons/AccentButton.vue'
 import ThemeChangeButton from '../components/ThemeChangeButton.vue'
+import { useStore } from 'vuex'
+import { computed } from 'vue'
+import { supabase } from '@/libs/supabase'
+import router from '@/router'
+
+const store = useStore()
+
+const AccountName = computed(() => store.getters['auth/displayName'])
+
+const logout = () => {
+    supabase.auth.signOut()
+    store.dispatch('auth/logout')
+    router.push('/auth')
+}
 </script>
 
 <template>
@@ -14,9 +27,8 @@ import ThemeChangeButton from '../components/ThemeChangeButton.vue'
             .Request
         </h1>
         <div class="flex flex-row items-center gap-2">
-            <!--ToDO: Сделать отображение имени аккаунта-->
-            <p>TODO: Аккаунт</p>
-            <TRButton>Выход</TRButton>
+            <p>{{ AccountName }}</p>
+            <TRButton @clicked="logout" v-if="AccountName">Выход</TRButton>
             <ThemeChangeButton />
         </div>
     </nav>

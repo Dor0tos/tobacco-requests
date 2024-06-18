@@ -1,13 +1,45 @@
-@import './base.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    --text-accent-light: rgb(51 65 85);
+    --text-accent-dark: white;
+    --text-light: #5e6978;
+    --text-dark: #bdc5d1;
+}
 
 a {
     text-decoration: underline;
     color: #3b82f6;
     cursor: pointer;
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Play';
+}
+
+h3 {
+    font-size: 20px;
+    color: var(--text-accent-light);
+}
+
+h3:is(.dark *) {
+    color: var(--text-accent-dark);
+}
+
 * {
     --tw-shadow-color: #00000039;
+    transition: all 0.25s ease-in-out;
+    color: var(--text-light);
+    font-family: 'Noto Sans';
+}
+
+p:is(.dark *) {
+    color: var(--text-dark);
 }

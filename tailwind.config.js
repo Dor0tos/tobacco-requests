@@ -13,7 +13,7 @@ export default {
 
                 'background-dark': '#1E293B',
                 'foreground-dark': '#334155',
-                'error-dark': '#991B1B',
+                'error-dark': '#601c1c',
                 'text-dark': '#5E6978',
                 'text-accent-dark': '#FFFFFF',
                 'panel-dark': '#1E293B',

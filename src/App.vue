@@ -1,35 +1,37 @@
 <script setup>
 import NavigationBar from './components/NavigationBar.vue'
-import Panel from './ui/Panel.vue'
-import RequestsList from './components/RequestsList.vue'
-import RequestsCard from './components/RequestCard.vue'
+import ModalComponent from './components/ModalCombonent.vue'
+import Panel from './ui/TRPanel.vue'
 import TRFooter from './components/TRFooter.vue'
+import { useStore } from 'vuex'
+import { computed } from 'vue'
+
+const store = useStore()
+
+const isModalOpened = computed(() => store.getters['modal/isModalOpened'])
+const data = computed(() => store.getters['modal/modalContent'])
+
+const closeModal = () => {
+    store.dispatch('modal/closeModal')
+}
+
+const handleModal = () => {}
 </script>
 
 <template>
     <div
-        class="h-full bg-pattern-light dark:bg-pattern-dark w-full min-h-[100vh] absolute -z-10 pattern"
+        class="bg-pattern-light dark:bg-pattern-dark w-full min-h-[100vh] absolute top-0 -z-10 pattern"
     />
-    <div
-        class="h-full bg-no-repeat bg-left bg-[url('/src/assets/img/blue_light.png')] w-full min-h-[100vh] absolute -z-10"
-    />
-    <div
-        class="h-full bg-no-repeat bg-right bg-[url('/src/assets/img/orange_light.png')] w-full min-h-[100vh] absolute -z-10"
-    />
-    <div class="w-3/4 mx-auto pt-10 flex flex-col gap-8 items-center">
+    <div class="w-3/4 mx-auto pt-10 flex flex-col gap-8 items-center h-[100vh]">
         <NavigationBar />
-        <main class="w-4/5">
-            <Panel>
-                <RequestsList :columns="3">
-                    <RequestsCard title="Вывоз брака" />
-                    <RequestsCard title="Техническая заявка - Оборудование" />
-                    <RequestsCard title="Прочее" />
-                    <RequestsCard title="Заказ бытовых расходников" />
-                </RequestsList>
-            </Panel>
-        </main>
+        <Panel class="w-2/3 h-full">
+            <RouterView />
+        </Panel>
         <TRFooter />
     </div>
+    <ModalComponent :is-open="isModalOpened" :data="data" @modal-close="closeModal">
+        <template #modal-header>My Header</template>
+    </ModalComponent>
 </template>
 
 <style scoped>
