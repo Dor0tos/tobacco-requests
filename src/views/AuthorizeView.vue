@@ -1,42 +1,26 @@
 <script setup lang="ts">
-import { supabase } from '@/libs/supabase'
 import AccentButton from '@/ui/buttons/AccentButton.vue'
-import Translator from '@/libs/supabaseAuthTranslation'
-import { onMounted, ref } from 'vue'
-import { isAuth, getUser, getSession } from '@/libs/AuthHandler'
+import { ref } from 'vue'
 import { useStore } from 'vuex'
 import router from '@/router'
 
 const store = useStore()
 
-const loginButtonClick = async (e) => {
-    errorText.value = ''
-
+const loginAttempt = async (e) => {
     e.preventDefault()
 
-    let { data, error } = await supabase.auth.signInWithPassword({
-        email: email.value,
-        password: password.value
-    })
-
-    if (data.user) {
-        store.dispatch('auth/login', data.session)
-        router.push({ name: 'home' })
-    } else {
-        console.log('error >', error)
-        errorText.value = Translator(error.message)
+    try {
+        await store.dispatch('auth/login', {email: email.value, password: password.value})
+        router.push({name: 'home'})
+    }
+    catch (error) {
+        errorText.value = error.message
     }
 }
 
 const email = ref('')
 const password = ref('')
 const errorText = ref('')
-
-onMounted(async () => {
-    if (await isAuth()) {
-        store.dispatch('auth/login', await getSession())
-    }
-})
 </script>
 
 <template>
@@ -70,8 +54,10 @@ onMounted(async () => {
                 >
                     {{ errorText }}
                 </p>
-                <AccentButton @clicked="loginButtonClick">Войти</AccentButton>
+                <AccentButton @clicked="loginAttempt">Войти</AccentButton>
             </form>
+            <AccentButton @clicked="console.log(store.getters['auth/isAuthenticated'])">Check if auth</AccentButton>
+            <AccentButton @clicked="router.push({ name: 'home' })">Go to HOME</AccentButton>
         </section>
     </main>
 </template>

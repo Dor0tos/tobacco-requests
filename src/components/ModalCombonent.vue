@@ -41,7 +41,7 @@ onClickOutside(target, () => emit('modal-close'))
                     <section class="flex gap-5">
                         <ModalInfo title="Создано" :value="props.data.info.createdAt" />
                         <ModalInfo title="Статус" :value="props.data.info.status" />
-                        <ModalInfo title="Отправлено из" value="Кашира" />
+                        <ModalInfo title="Отправлено из" value="Кашира" v-if="data.adminMode"/>
                     </section>
                     <TrButton @clicked="emit('modal-close')">Закрыть</TrButton>
                 </footer>

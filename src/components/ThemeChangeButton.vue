@@ -27,13 +27,10 @@ function updateTheme() {
 
         localStorage.setItem('theme', 'light')
     }
-
-    console.log('theme', localStorage.getItem('theme'))
 }
 
 onMounted(() => {
     let theme = localStorage.getItem('theme')
-    console.log('theme', theme)
     if (!theme) {
         localStorage.setItem('theme', 'light')
         isDarkTheme.value = false

@@ -1,65 +1,32 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { nextTick } from 'vue'
-import UserView from '../views/UserView.vue'
-import AuthorizeView from '../views/AuthorizeView.vue'
-import AdminHomeView from '../views/AdminHomeView.vue'
-import AdminSettingsView from '../views/AdminSettingsView.vue'
 import store from '@/stores/store'
+
+import loginRoute from './login-page/index'
+import requestsRoute from './request-page/index'
+import adminRoute from './reguest-page-admin/index'
+import settingsRoute from './settings-page/index'
+
 import { useStore } from 'vuex'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
-        {
-            path: '/',
-            name: 'home',
-            meta: {
-                title: 'Мои запросы',
-                requiresAuth: true
-            },
-            component: UserView
-        },
-        {
-            path: '/auth',
-            name: 'auth',
-            meta: {
-                title: 'Вход'
-            },
-            component: AuthorizeView
-        },
-        {
-            path: '/admin',
-            name: 'admin',
-            meta: {
-                title: 'Запросы',
-                requiresAuth: true,
-                mustBeAdmin: true
-            },
-            component: AdminHomeView
-        },
-        {
-            path: '/settings',
-            name: 'settings',
-            meta: {
-                title: 'Настройки',
-                requiresAuth: true,
-                mustBeAdmin: true
-            },
-            component: AdminSettingsView
-        }
+        loginRoute,
+        requestsRoute,
+        adminRoute,
+        settingsRoute
     ]
 })
 
 const DEFAULT_TITLE = '.Req - '
 
 router.beforeEach((to, from, next) => {
-    console.log('From >', from)
-    console.log('To >', to)
-
-    console.log('Store >', store._state.data)
+    console.log('trying to route...')
     nextTick(() => {
         if (to.matched.some((record) => record.meta.requiresAuth)) {
-            if (!store.getters.isAuthenticated && to.name !== 'auth') {
+            const isAuth = store.getters['auth/isAuthenticated']
+            if (!isAuth && to.name !== 'auth') {
                 next({ name: 'auth' })
             } else {
                 if (to.matched.some((record) => record.meta.mustBeAdmin)) {

@@ -5,6 +5,8 @@ import Panel from './ui/TRPanel.vue'
 import TRFooter from './components/TRFooter.vue'
 import { useStore } from 'vuex'
 import { computed } from 'vue'
+import { onMounted } from 'vue'
+import router from './router'
 
 const store = useStore()
 
@@ -16,6 +18,16 @@ const closeModal = () => {
 }
 
 const handleModal = () => {}
+
+onMounted(async () => {
+    const user = await store.dispatch('auth/fetchUser') 
+    if (!user) {
+        router.push({name: 'auth'})
+    } else {
+        store.dispatch('auth/setProfileByUser', user)
+        router.push({name: 'home'})
+    }
+})
 </script>
 
 <template>
